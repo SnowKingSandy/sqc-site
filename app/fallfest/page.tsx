@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import FadeInOnScroll from "@/components/sections/FadeInOnScroll";
 import SectionHeading from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -364,7 +365,7 @@ function TeamSponsorsSection() {
       className="max-w-6xl mx-auto px-6 sm:px-12 my-12 text-center"
     >
       <SectionHeading title="Team, Organizers, Sponsors" />
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-6 items-center">
+      <div className="px-32 flex flex-row gap-2 items-center">
         {logos.map(({ src, alt }, i) => (
           <img key={i} src={src} alt={alt} className="mx-auto max-h-16 sm:max-h-20 object-contain" />
         ))}
@@ -439,29 +440,23 @@ export default function FallFestPage() {
   return (
     <main
       className="bg-[#0f0c29] text-white font-sans min-h-screen scroll-smooth"
-      // If the main website navbar is fixed, set its height here (or on :root) to avoid collision.
-      // Example: '--global-nav-h': '64px' if the global navbar is 64px tall.
-      style={
-        {
-          // @ts-ignore: CSS custom property
-          "--global-nav-h": "64px",
-          // Padding top equals global nav + page header; page header height is measured dynamically.
-          paddingTop:
-            "calc(var(--global-nav-h, 0px) + var(--page-header-h, 64px))",
-        } as React.CSSProperties
-      }
+      style={{
+        // @ts-ignore: CSS custom property
+        "--global-nav-h": "64px",
+        paddingTop: "calc(var(--global-nav-h, 0px) + var(--page-header-h, 64px))",
+      }}
     >
       <PageHeader />
-      <HomeHero />
-      <AboutSection />
-      <ScheduleSection />
-      <WorkshopsSection />
-      <SpeakersSection />
-      <RegisterSection />
-      <ResourcesSection />
-      <TeamSponsorsSection />
-      <CodeOfConductSection />
-      <ContactSection />
+      <FadeInOnScroll><HomeHero /></FadeInOnScroll>
+      <FadeInOnScroll><AboutSection /></FadeInOnScroll>
+      <FadeInOnScroll><ScheduleSection /></FadeInOnScroll>
+      <FadeInOnScroll><WorkshopsSection /></FadeInOnScroll>
+      <FadeInOnScroll><SpeakersSection /></FadeInOnScroll>
+      <FadeInOnScroll><RegisterSection /></FadeInOnScroll>
+      <FadeInOnScroll><ResourcesSection /></FadeInOnScroll>
+      <FadeInOnScroll><TeamSponsorsSection /></FadeInOnScroll>
+      <FadeInOnScroll><CodeOfConductSection /></FadeInOnScroll>
+      <FadeInOnScroll><ContactSection /></FadeInOnScroll>
       <CodeOfConductFooter />
     </main>
   );
