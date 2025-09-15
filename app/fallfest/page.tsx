@@ -1,97 +1,164 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import FadeInOnScroll from "@/components/sections/FadeInOnScroll";
 import SectionHeading from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-// Accessible focus and CTA styles
+// Focus and CTA styles
 const ring =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#40c0cb] focus-visible:ring-offset-[#0f0c29]";
 const ctaPrimary = `bg-[#40c0cb] text-[#0f0c29] hover:bg-[#3ab1bb] font-bold shadow-lg ${ring}`;
 const ctaSecondary = `border-[#40c0cb] text-white hover:bg-[#40c0cb]/15 ${ring}`;
 const linkAccent = "text-[#40c0cb] underline hover:text-[#58d4d7]";
 
-// Utility: common anchor scroll offset style
+// Common anchor offset for fixed global header (if present)
 const anchorOffsetStyle = {
-  scrollMarginTop:
-    "calc(var(--global-nav-h, 0px) + var(--page-header-h, 64px) + 16px)",
+  scrollMarginTop: "calc(var(--global-nav-h, 0px) + 16px)",
 } as React.CSSProperties;
 
-// Fixed header with scroll-progress and collision-safe offset
-function PageHeader() {
-  const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const headerRef = useRef<HTMLElement | null>(null);
+// Shared logo sizing tokens for consistency
+const logoH = "h-10 sm:h-12"; // hero primary logos
+const partnerH = "h-14 sm:h-16 md:h-18"; // equal heights in partner strip
 
-  useEffect(() => {
-    // Update progress on scroll
-    const onScroll = () => {
-      const st = window.scrollY || document.documentElement.scrollTop;
-      const doc = document.documentElement;
-      const height = doc.scrollHeight - doc.clientHeight;
-      setScrolled(st > 8);
-      setProgress(height > 0 ? Math.min(100, Math.max(0, (st / height) * 100)) : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+// Top-left hamburger button (three horizontal lines), always visible
+function HamburgerButton({
+  open,
+  setOpen,
+  controlsId,
+}: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
+  controlsId: string;
+}) {
+  const toggle = useCallback(() => setOpen(!open), [open, setOpen]);
 
-    // Measure and set --page-header-h via ResizeObserver
-    const el = headerRef.current;
-    const setVar = () => {
-      const h = el ? el.getBoundingClientRect().height : 64;
-      document.documentElement.style.setProperty("--page-header-h", `${h}px`);
-    };
-    setVar();
-    let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== "undefined" && el) {
-      ro = new ResizeObserver(() => setVar());
-      ro.observe(el);
-    }
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      ro?.disconnect();
-    };
-  }, []);
+  // Shift button to the right when sidebar is open on desktop so it's not hidden
+  const leftWhenOpenDesktop = open ? "md:left-[300px]" : "md:left-3";
 
   return (
-    <header
-      ref={headerRef as any}
-      className={`fixed inset-x-0 z-40 transition-colors top-[var(--global-nav-h,0px)] ${
-        scrolled ? "bg-[#0f0c29]/95 border-b border-white/10 shadow-lg" : "bg-transparent border-b border-transparent"
-      }`}
+    <button
+      type="button"
+      aria-label="Toggle navigation"
+      aria-controls={controlsId}
+      aria-expanded={open}
+      onClick={toggle}
+      className={`fixed z-[21] left-3 ${leftWhenOpenDesktop} top-[calc(var(--global-nav-h,0px)+12px)] inline-flex items-center justify-center h-10 w-10 rounded-full bg-[#40c0cb] text-[#0f0c29] hover:bg-[#58d4d7] transition ${ring}`}
     >
-      <div
-        className="absolute left-0 top-0 h-0.5 bg-[#40c0cb] transition-[width] duration-150 ease-linear"
-        style={{ width: `${progress}%` }}
-        aria-hidden="true"
-      />
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 h-14 sm:h-16 md:h-20 flex items-center justify-between">
-        <a href="#home" className={`flex items-center gap-3 ${ring}`} aria-label="Qiskit Fall Fest home">
-          <img src="/assets/fallfest/IBM Quantum Logo.png" alt="IBM Quantum Logo" className="h-8 w-auto" />
-          <span className="text-sm sm:text-base font-semibold text-white/90">Qiskit Fall Fest 2025</span>
-        </a>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-gray-200">
-          <a href="#about" className="hover:text-white transition-colors">About</a>
-          <a href="#schedule" className="hover:text-white transition-colors">Program</a>
-          <a href="#workshops" className="hover:text-white transition-colors">Workshops</a>
-          <a href="#speakers" className="hover:text-white transition-colors">Speakers</a>
-          <a href="#resources" className="hover:text-white transition-colors">Resources</a>
-          <a href="#team" className="hover:text-white transition-colors">Team</a>
-          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-          <a href="#coc" className="hover:text-[#ff4e50] text-white/90 transition-colors">Code of Conduct</a>
-          <Button asChild size="sm" className={ctaPrimary}>
-            <a href="#register" aria-label="Register">Register</a>
+      <span className="sr-only">Menu</span>
+      <span aria-hidden="true" className="relative block w-6 h-4">
+        <span
+          className={`absolute inset-x-0 top-0 h-0.5 bg-[#0f0c29] transition-transform ${open ? "translate-y-1.5 rotate-45" : ""}`}
+        />
+        <span
+          className={`absolute inset-x-0 top-2 h-0.5 bg-[#0f0c29] transition-opacity ${open ? "opacity-0" : "opacity-100"}`}
+        />
+        <span
+          className={`absolute inset-x-0 bottom-0 h-0.5 bg-[#0f0c29] transition-transform ${open ? "-translate-y-1.5 -rotate-45" : ""}`}
+        />
+      </span>
+    </button>
+  );
+}
+
+// Sidebar (replaces top navbar) — header text only per request
+function Sidebar({
+  open,
+  setOpen,
+  id = "site-sidebar",
+}: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
+  id?: string;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [setOpen]);
+
+  const links = [
+    { href: "#home", label: "Home" },
+    { href: "#event", label: "Event" },
+    { href: "#schedule", label: "Program" },
+    { href: "#speakers", label: "Speakers" },
+    { href: "#register", label: "Register" },
+    { href: "#resources", label: "Resources" },
+    { href: "#team", label: "Team · Organizers · Sponsors" },
+    { href: "#coc", label: "Code of Conduct" },
+  ];
+
+  return (
+    <>
+      {/* Overlay for small screens */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        id={id}
+        className={`fixed z-50 top-[var(--global-nav-h,0px)] left-0 h-[calc(100vh-var(--global-nav-h,0px))] w-[260px] md:w-[280px]
+          bg-gradient-to-b from-[#0f0c29] via-[#151a34] to-[#0f0c29] border-r border-white/10
+          transition-transform ${open ? "translate-x-0" : "-translate-x-full"}`}
+        aria-label="Sidebar navigation"
+      >
+        <div className="h-16 md:h-20 flex items-center px-4 border-b border-white/10">
+          <span className="text-sm font-semibold text-white/90">Qiskit Fallfest 2025</span>
+          <Button
+            type="button"
+            variant="ghost"
+            className={`ml-auto md:hidden text-white/80 hover:text-white ${ring}`}
+            onClick={() => setOpen(false)}
+          >
+            ✕
           </Button>
+        </div>
+        <nav className="px-3 py-4 space-y-1 text-sm text-gray-200">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="block rounded px-3 py-2 hover:bg-white/10 hover:text-white transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
+          <div className="pt-2">
+            <Button asChild size="sm" className={ctaPrimary}>
+              <a href="#register" aria-label="Register">Register</a>
+            </Button>
+          </div>
         </nav>
-      </div>
-    </header>
+      </aside>
+    </>
   );
 }
 
 function HomeHero() {
+  // Fallback handler for Qiskit (if SVG fails)
+  const onQiskitError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const t = e.currentTarget;
+    if (!t.dataset.fallback) {
+      t.src = "/assets/fallfest/Qiskit_01.png";
+      t.dataset.fallback = "true";
+    }
+  };
+  // Fallback handler for Symbiosis (mono)
+  const onSymbiosisError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const t = e.currentTarget;
+    if (!t.dataset.fallback) {
+      t.src = "/logo-mono.png";
+      t.dataset.fallback = "true";
+    }
+  };
+
   return (
     <section
       id="home"
@@ -99,68 +166,130 @@ function HomeHero() {
       style={anchorOffsetStyle}
       className="relative flex flex-col items-center text-center bg-gradient-to-b from-[#0f0c29] via-[#1a1446] to-[#24243e] px-6"
     >
-      {/* Ensure hero fits in one screen below both headers */}
-      <div className="w-full max-w-6xl mx-auto pt-6 md:pt-8"
-           style={{
-             minHeight:
-               "calc(100vh - var(--global-nav-h, 0px) - var(--page-header-h, 64px))",
-           }}>
+      {/* Fit hero within one screen below any global header */}
+      <div
+        className="w-full max-w-6xl mx-auto pt-8 md:pt-10"
+        style={{ minHeight: "calc(100vh - var(--global-nav-h, 0px))" }}
+      >
+        {/* Only these three logos: IBM Quantum | Qiskit | Symbiosis (mono) */}
+        <div className="flex items-center justify-center gap-4 sm:gap-6 mb-4 sm:mb-6">
+          <img
+            src="/assets/fallfest/IBM Quantum Logo.png"
+            alt="IBM Quantum"
+            className={`${logoH} w-auto object-contain block`}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+          <span className="text-white/50">|</span>
+          <img
+            src="/assets/fallfest/qiskit%20logo.svg"
+            alt="Qiskit"
+            className={`${logoH} w-auto object-contain block`}
+            onError={onQiskitError}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+          <span className="text-white/50">|</span>
+          <img
+            src="/logo-mono.png"
+            alt="Symbiosis Quantum Club"
+            className={`${logoH} w-auto object-contain block`}
+            onError={onSymbiosisError}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </div>
+
         <h1 id="hero-title" className="sr-only">Qiskit Fall Fest 2025</h1>
-        <img
-          src="/assets/fallfest/IBM Quantum Logo.png"
-          alt="IBM Quantum Logo"
-          className="w-28 sm:w-40 mx-auto drop-shadow mb-4"
-        />
         <SectionHeading title="Qiskit Fall Fest 2025" />
+
+        {/* Illustration constrained for single-screen composition */}
         <div className="py-4 max-w-5xl w-full mx-auto">
           <img
             src="/assets/fallfest/Full_Illustration.png"
             alt="Quantum 100 Years Banner"
-            className="w-full max-h-[40vh] rounded-xl shadow-lg object-contain mx-auto"
+            className="w-full max-h-[38vh] sm:max-h-[42vh] rounded-xl shadow-lg object-contain mx-auto block"
+            loading="lazy"
+            decoding="async"
           />
         </div>
-        <p className="text-base sm:text-lg text-[#40c0cb] font-semibold mb-2">
-          October – November 2025 · Global · Virtual & Physical
+
+        {/* Quick facts as chips */}
+        <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
+          {[
+            "Fundamentals of Quantum Mechanics",
+            "Live 3‑day online program",
+            "Assessment → certification eligibility",
+            "Dates: TBA",
+            "Open to everyone",
+          ].map((item, i) => (
+            <li
+              key={i}
+              className="text-sm sm:text-base text-[#40c0cb] bg-[#40c0cb]/10 border border-[#40c0cb]/30 rounded-full px-3 py-1"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <p className="mb-6 max-w-3xl text-gray-200 mx-auto text-base sm:text-lg">
+          Build a solid conceptual foundation and practice circuits with Qiskit in guided labs, then validate learning with a short assessment for a course certificate.
         </p>
-        <p className="mb-6 max-w-3xl text-gray-200 mx-auto">
-          Join the world's largest student-driven quantum computing festival. Celebrate 100 years of quantum science with workshops, hackathons, talks, and community!
-        </p>
+
         <div className="flex flex-col sm:flex-row gap-4 mt-2 justify-center">
           <Button asChild size="lg" className={ctaPrimary}>
             <a href="#register" aria-label="Register Now">Register Now</a>
           </Button>
           <Button asChild size="lg" variant="outline" className={ctaSecondary}>
-            <a href="#about" aria-label="Learn more about Fall Fest">Learn More</a>
+            <a href="#event" aria-label="See event details">Event Details</a>
           </Button>
         </div>
       </div>
+
       <img
         src="/assets/fallfest/Badge_03.png"
         alt="Fall Fest Badge"
-        className="hidden sm:block absolute top-6 left-6 w-20 drop-shadow-2xl pointer-events-none select-none"
+        className="hidden sm:block absolute top-6 right-6 w-16 drop-shadow-2xl pointer-events-none select-none"
+        aria-hidden="true"
       />
     </section>
   );
 }
 
-function AboutSection() {
+function EventSection() {
   return (
     <section
-      id="about"
-      aria-labelledby="about-title"
+      id="event"
+      aria-labelledby="event-title"
       style={anchorOffsetStyle}
-      className="max-w-5xl mx-auto mt-12 px-6 sm:px-12"
+      className="max-w-6xl mx-auto mt-10 px-6 sm:px-12"
     >
-      <SectionHeading title="About Qiskit Fall Fest" />
-      <div className="flex flex-col sm:flex-row items-center gap-6">
-        <img
-          src="/assets/fallfest/Theme.png"
-          alt="Fest Theme Graphic"
-          className="w-32 sm:w-36 rounded-full border-4 border-[#40c0cb] shadow-xl"
-        />
-        <p id="about-title" className="text-gray-200 text-lg leading-relaxed max-w-xl">
-          Qiskit Fall Fest is a global celebration of quantum learning hosted by universities and IBMers, welcoming all experience levels to learn, build, and connect.
-        </p>
+      <SectionHeading title="Event: Fundamentals of Quantum Mechanics" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2">
+        <div className="space-y-4 text-gray-200">
+          <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
+            <li>Three focused days combining live instruction with hands‑on labs to build intuition quickly.</li>
+            <li>Guided practice with Qiskit: states, gates, circuits, and simple algorithms.</li>
+            <li>Short assessment at the end; successful completion makes participants eligible for a course certificate.</li>
+            <li>Dates: TBA · Open to all backgrounds and experience levels.</li>
+          </ul>
+          <div className="pt-2">
+            <Button asChild size="lg" className={ctaPrimary}>
+              <a href="#register" aria-label="Open registration">Register (Open)</a>
+            </Button>
+          </div>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-white font-semibold mb-3">What to expect</h3>
+          <ul className="list-disc pl-5 text-gray-300 space-y-2">
+            <li>Clear explanations of states, operators, and measurement with minimal math overhead.</li>
+            <li>Build and run small circuits in Qiskit to see concepts in action.</li>
+            <li>Concise assessment to check understanding and qualify for certification.</li>
+          </ul>
+        </div>
       </div>
     </section>
   );
@@ -179,84 +308,57 @@ function ScheduleSection() {
         <img
           src="/assets/fallfest/Timeline_01.png"
           alt="Event Timeline"
-          className="max-w-full max-h-[300px] rounded-lg shadow-md mx-auto object-contain"
+          className="max-w-full max-h-[280px] rounded-lg shadow-md mx-auto object-contain block"
+          loading="lazy"
+          decoding="async"
         />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
         <Card className="bg-gray-900/90 border-l-4 border-[#40c0cb]">
           <CardContent>
-            <h3 className="text-lg sm:text-xl font-semibold text-[#40c0cb] mb-2">Day 1: Kickoff & Keynotes</h3>
-            <p className="text-gray-300">Opening ceremonies with keynote speeches from IBM Quantum and community partners.</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-gray-900/90 border-l-4 border-[#ff4e50]">
-          <CardContent>
-            <h3 className="text-lg sm:text-xl font-semibold text-[#ff4e50] mb-2">Day 2: Workshops & Panels</h3>
-            <p className="text-gray-300">Hands-on sessions and panels with experts and leaders across the quantum ecosystem.</p>
+            <h3 className="text-lg sm:text-xl font-semibold text-[#40c0cb] mb-2">Day 1: Foundations</h3>
+            <ul className="list-disc pl-5 text-gray-300 space-y-1">
+              <li>State vectors, measurements, single‑qubit gates.</li>
+              <li>Live demos in Qiskit to cement concepts.</li>
+            </ul>
           </CardContent>
         </Card>
         <Card className="bg-gray-900/90 border-l-4 border-[#8b5cf6]">
           <CardContent>
-            <h3 className="text-lg sm:text-xl font-semibold text-[#8b5cf6] mb-2">Day 3: Challenges & Hackathons</h3>
-            <p className="text-gray-300">Coding challenges and hackathons to apply and showcase new skills.</p>
+            <h3 className="text-lg sm:text-xl font-semibold text-[#8b5cf6] mb-2">Day 2: Circuits</h3>
+            <ul className="list-disc pl-5 text-gray-300 space-y-1">
+              <li>Multi‑qubit systems, entanglement.</li>
+              <li>Compose and run simple circuits.</li>
+            </ul>
           </CardContent>
         </Card>
         <Card className="bg-gray-900/90 border-l-4 border-[#fbbf24]">
           <CardContent>
-            <h3 className="text-lg sm:text-xl font-semibold text-[#fbbf24] mb-2">Day 4: Demos & Awards</h3>
-            <p className="text-gray-300">Project showcases, awards, and networking across global chapters.</p>
+            <h3 className="text-lg sm:text-xl font-semibold text-[#fbbf24] mb-2">Day 3: Algorithms</h3>
+            <ul className="list-disc pl-5 text-gray-300 space-y-1">
+              <li>Intro to basic algorithms.</li>
+              <li>Guided practice + assessment briefing.</li>
+            </ul>
+          </CardContent>
+        </Card>
+        <Card className="bg-gray-900/90 border-l-4 border-[#ff4e50]">
+          <CardContent>
+            <h3 className="text-lg sm:text-xl font-semibold text-[#ff4e50] mb-2">Assessment</h3>
+            <ul className="list-disc pl-5 text-gray-300 space-y-1">
+              <li>Submission checklist and timeline.</li>
+              <li>Certification eligibility criteria.</li>
+            </ul>
           </CardContent>
         </Card>
       </div>
 
       <div className="flex justify-center mt-8">
         <Button asChild size="lg" variant="outline" className={ctaSecondary}>
-          <a href="/assets/fallfest/FallFest_Schedule.pdf" download aria-label="Download schedule PDF">Download Full Schedule (PDF)</a>
+          <a href="/assets/fallfest/FallFest_Schedule.pdf" download aria-label="Download schedule PDF">
+            Download Full Schedule (PDF)
+          </a>
         </Button>
-      </div>
-    </section>
-  );
-}
-
-function WorkshopsSection() {
-  const workshops = [
-    { title: "Qiskit 101", level: "Beginner", href: "#" },
-    { title: "Quantum Algorithms", level: "Intermediate", href: "#" },
-    { title: "Quantum Error Correction", level: "Advanced", href: "#" },
-  ];
-
-  const levelPill = (level: string) => {
-    const map: Record<string, string> = {
-      Beginner: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
-      Intermediate: "bg-sky-500/20 text-sky-300 border-sky-400/30",
-      Advanced: "bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/30",
-    };
-    return `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs border ${map[level] || "bg-gray-500/20 text-gray-300 border-gray-400/30"}`;
-  };
-
-  return (
-    <section
-      id="workshops"
-      aria-labelledby="workshops-title"
-      style={anchorOffsetStyle}
-      className="max-w-6xl mx-auto px-6 sm:px-12 py-12 bg-gradient-to-b from-[#0f0c29] via-[#17223b] to-[#0f0c29] rounded-2xl"
-    >
-      <SectionHeading title="Workshops & Challenges" />
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {workshops.map(({ title, level, href }, idx) => (
-          <Card key={idx} className="bg-gray-900/90 hover:bg-gray-900/95 p-6 transition-colors rounded-lg">
-            <CardContent>
-              <h3 className="text-lg sm:text-xl text-white font-bold mb-2">{title}</h3>
-              <p className="mb-4">
-                <span className={levelPill(level)}>Difficulty: {level}</span>
-              </p>
-              <Button asChild variant="outline" size="sm" className={ctaSecondary}>
-                <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title} notebook`}>Notebook</a>
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
       </div>
     </section>
   );
@@ -290,12 +392,26 @@ function SpeakersSection() {
       <SectionHeading title="Speakers & Mentors" />
       <div className="grid sm:grid-cols-2 gap-8">
         {speakers.map(({ name, role, img, bio, sessionHref }, i) => (
-          <Card key={i} className="bg-gray-900/80 p-6 flex flex-col items-center text-center rounded-lg hover:shadow-lg transition-shadow">
-            <img src={img} alt={name} className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-[#40c0cb] mb-3 sm:mb-4 object-cover" />
+          <Card
+            key={i}
+            className="bg-gray-900/80 p-6 flex flex-col items-center text-center rounded-lg hover:shadow-lg transition-shadow"
+          >
+            <img
+              src={img}
+              alt={name}
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-[#40c0cb] mb-3 sm:mb-4 object-cover block"
+              loading="lazy"
+              decoding="async"
+            />
             <h3 className="text-white font-bold text-lg sm:text-xl">{name}</h3>
             <span className="text-[#8b5cf6] font-semibold">{role}</span>
             <p className="text-gray-300 mt-3">{bio}</p>
-            <Button asChild variant="ghost" size="sm" className={`mt-4 text-[#40c0cb] hover:text-[#58d4d7] ${ring}`}>
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className={`mt-4 text-[#40c0cb] hover:text-[#58d4d7] ${ring}`}
+            >
               <a href={sessionHref} aria-label={`View session for ${name}`}>Session Details</a>
             </Button>
           </Card>
@@ -314,9 +430,11 @@ function RegisterSection() {
       className="max-w-3xl mx-auto px-6 py-12 text-center"
     >
       <SectionHeading title="Register" />
-      <p className="mb-6 text-gray-300">
-        Register to be part of IBM Qiskit Fall Fest 2025 and immerse in the future of quantum computing.
-      </p>
+      <ul className="mb-6 text-gray-300 text-base sm:text-lg list-disc pl-5 space-y-2 text-left max-w-2xl mx-auto">
+        <li>Open to everyone; no prior experience required.</li>
+        <li>Join the 3‑day live program and complete the short assessment.</li>
+        <li>Eligible participants receive a course certificate.</li>
+      </ul>
       <Button asChild size="lg" className={`${ctaPrimary} px-10 py-3`}>
         <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Register">Register Now</a>
       </Button>
@@ -325,8 +443,8 @@ function RegisterSection() {
 }
 
 function ResourcesSection() {
-  const version = "v2025.09.14";
-  const updated = "Updated Sep 14, 2025";
+  const version = "v2025.09.16";
+  const updated = "Updated Sep 16, 2025";
 
   return (
     <section
@@ -337,25 +455,39 @@ function ResourcesSection() {
     >
       <SectionHeading title="Resources" />
       <p className="text-gray-400 max-w-xl mx-auto mb-6">
-        Workshops, notebooks, slides, and recordings are available in the official repository.
+        Notebooks, slides, and recordings will be published after each session in the official repository.
       </p>
       <div className="flex items-center justify-center gap-3 mb-6 text-sm text-gray-400">
         <span className="px-2 py-1 rounded bg-white/5 border border-white/10">{version}</span>
         <span className="px-2 py-1 rounded bg-white/5 border border-white/10">{updated}</span>
       </div>
       <Button asChild variant="outline" size="lg" className={ctaSecondary}>
-        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View GitHub Repository">View GitHub Repository</a>
+        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View GitHub Repository">
+          View GitHub Repository
+        </a>
       </Button>
     </section>
   );
 }
 
 function TeamSponsorsSection() {
+  // Equal-height, object-contain logos to prevent mismatched sizes
   const logos = [
-    { src: "/assets/fallfest/Atom_01.png", alt: "Organizer 1" },
-    { src: "/assets/fallfest/Atom_03.png", alt: "Organizer 3" },
-    { src: "/assets/fallfest/Badge.png", alt: "Fall Fest Badge" },
+    { src: "/assets/fallfest/IBM Quantum Logo.png", alt: "IBM Quantum" },
+    { src: "/assets/fallfest/qiskit%20logo.svg", alt: "Qiskit" },
+    { src: "/logo-mono.png", alt: "Symbiosis Quantum Club" },
   ];
+
+  const handleErr = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const t = e.currentTarget;
+    if (t.src.includes("qiskit%20logo.svg") && !t.dataset.fallback) {
+      t.src = "/assets/fallfest/Qiskit_01.png";
+      t.dataset.fallback = "true";
+    } else if (t.src.includes("/logo-mono.png") && !t.dataset.fallback) {
+      t.src = "/logo-mono.png"; // already mono; keep as is
+      t.dataset.fallback = "true";
+    }
+  };
 
   return (
     <section
@@ -364,17 +496,23 @@ function TeamSponsorsSection() {
       style={anchorOffsetStyle}
       className="max-w-6xl mx-auto px-6 sm:px-12 my-12 text-center"
     >
-      <SectionHeading title="Team, Organizers, Sponsors" />
-      <div className="px-32 flex flex-row gap-2 items-center">
+      <SectionHeading title="Team · Organizers · Sponsors" />
+      <div className="flex flex-wrap items-center justify-center gap-8">
         {logos.map(({ src, alt }, i) => (
-          <img key={i} src={src} alt={alt} className="mx-auto max-h-16 sm:max-h-20 object-contain" />
+          <div key={i} className="flex items-center justify-center">
+            <img
+              src={src}
+              alt={alt}
+              onError={handleErr}
+              className={`${partnerH} w-auto object-contain block`}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         ))}
       </div>
       <p className="text-gray-400 mt-6">
-        Contact:{" "}
-        <a href="mailto:quantum@ibm.com" className={linkAccent}>
-          quantum@ibm.com
-        </a>
+        For media or partnership inquiries, details are provided in registration confirmation emails.
       </p>
     </section>
   );
@@ -386,37 +524,48 @@ function CodeOfConductSection() {
       id="coc"
       aria-labelledby="coc-title"
       style={anchorOffsetStyle}
-      className="max-w-5xl mx-auto px-6 sm:px-12 py-12 text-center text-gray-300"
+      className="max-w-5xl mx-auto px-6 sm:px-12 py-12 text-gray-300"
     >
       <SectionHeading title="Code of Conduct" />
-      <p>
-        All participants must follow the Code of Conduct and Safety Guidelines; report concerns to organizers during any event activity.
+      <p className="mt-2">
+        This virtual event is committed to a respectful, inclusive, and harassment‑free experience for everyone, consistent with widely adopted community standards and IBM Quantum community values.
       </p>
-      <div className="mt-6">
-        <Button asChild variant="outline" className={ctaSecondary}>
-          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Open Code of Conduct">Open Code of Conduct</a>
-        </Button>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="rounded-xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-white font-semibold mb-3">Standards</h3>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>Be respectful, considerate, and constructive; welcome differing viewpoints and feedback.</li>
+            <li>Use inclusive language; focus on collaboration and community benefit.</li>
+          </ul>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-white font-semibold mb-3">Unacceptable behavior</h3>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>Harassment, discrimination, personal attacks, or sexualized language or imagery.</li>
+            <li>“Zoombombing,” spamming, or sharing meeting links publicly to invite disruption.</li>
+            <li>Recording or sharing content without permission; doxing or revealing private information.</li>
+          </ul>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:col-span-2">
+          <h3 className="text-white font-semibold mb-3">Virtual etiquette</h3>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>Use recognizable display names; keep chat professional and on topic.</li>
+            <li>Mute when not speaking; use backgrounds and avatars appropriate for a professional setting.</li>
+            <li>Follow moderators’ instructions; use official channels for Q&A and reporting.</li>
+          </ul>
+        </div>
+        <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:col-span-2">
+          <h3 className="text-white font-semibold mb-3">Reporting and enforcement</h3>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>Report issues via the organizer contacts provided in registration emails; urgent concerns are prioritized.</li>
+            <li>Organizers may take actions needed to keep participants safe, including warnings, muting, removal, or access revocation.</li>
+            <li>Reports are handled promptly and confidentially with proportionate action to stop harm.</li>
+          </ul>
+          <p className="mt-3 text-sm text-gray-400">
+            This Code aligns with recognized community codes and W3C guidance for positive, safe environments at virtual events.
+          </p>
+        </div>
       </div>
-    </section>
-  );
-}
-
-function ContactSection() {
-  return (
-    <section
-      id="contact"
-      aria-labelledby="contact-title"
-      style={anchorOffsetStyle}
-      className="max-w-5xl mx-auto px-6 sm:px-12 py-12 text-center text-gray-300"
-    >
-      <SectionHeading title="Contact, Venue, Travel" />
-      <p>
-        Questions? Email{" "}
-        <a href="mailto:quantum@ibm.com" className={linkAccent}>
-          quantum@ibm.com
-        </a>
-      </p>
-      <p className="mt-3">Venue: Main Campus & Virtual (see local event pages for details)</p>
     </section>
   );
 }
@@ -437,27 +586,38 @@ function CodeOfConductFooter() {
 
 // Page Layout
 export default function FallFestPage() {
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Open sidebar by default on desktop, collapsed on small screens
+  useEffect(() => {
+    const w = typeof window !== "undefined" ? window.innerWidth : 0;
+    setNavOpen(w >= 768);
+  }, []);
+
   return (
     <main
       className="bg-[#0f0c29] text-white font-sans min-h-screen scroll-smooth"
       style={{
+        // If the main site uses a fixed global header, set its height here (e.g., 64px)
         // @ts-ignore: CSS custom property
         "--global-nav-h": "64px",
-        paddingTop: "calc(var(--global-nav-h, 0px) + var(--page-header-h, 64px))",
       }}
     >
-      <PageHeader />
-      <FadeInOnScroll><HomeHero /></FadeInOnScroll>
-      <FadeInOnScroll><AboutSection /></FadeInOnScroll>
-      <FadeInOnScroll><ScheduleSection /></FadeInOnScroll>
-      <FadeInOnScroll><WorkshopsSection /></FadeInOnScroll>
-      <FadeInOnScroll><SpeakersSection /></FadeInOnScroll>
-      <FadeInOnScroll><RegisterSection /></FadeInOnScroll>
-      <FadeInOnScroll><ResourcesSection /></FadeInOnScroll>
-      <FadeInOnScroll><TeamSponsorsSection /></FadeInOnScroll>
-      <FadeInOnScroll><CodeOfConductSection /></FadeInOnScroll>
-      <FadeInOnScroll><ContactSection /></FadeInOnScroll>
-      <CodeOfConductFooter />
+      <HamburgerButton open={navOpen} setOpen={setNavOpen} controlsId="site-sidebar" />
+      <Sidebar open={navOpen} setOpen={setNavOpen} id="site-sidebar" />
+
+      {/* Content shifts right when sidebar is open on md+ */}
+      <div className={navOpen ? "md:ml-[280px]" : ""}>
+        <FadeInOnScroll><HomeHero /></FadeInOnScroll>
+        <FadeInOnScroll><EventSection /></FadeInOnScroll>
+        <FadeInOnScroll><ScheduleSection /></FadeInOnScroll>
+        <FadeInOnScroll><SpeakersSection /></FadeInOnScroll>
+        <FadeInOnScroll><RegisterSection /></FadeInOnScroll>
+        <FadeInOnScroll><ResourcesSection /></FadeInOnScroll>
+        <FadeInOnScroll><TeamSponsorsSection /></FadeInOnScroll>
+        <FadeInOnScroll><CodeOfConductSection /></FadeInOnScroll>
+        <CodeOfConductFooter />
+      </div>
     </main>
   );
 }
