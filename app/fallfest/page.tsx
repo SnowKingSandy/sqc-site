@@ -146,7 +146,7 @@ function HomeHero() {
   const onQiskitError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const t = e.currentTarget;
     if (!t.dataset.fallback) {
-      t.src = "/assets/fallfest/Qiskit_01.png";
+      t.src = "/assets/fallfest/Qiskit_02.png";
       t.dataset.fallback = "true";
     }
   };
@@ -164,8 +164,7 @@ function HomeHero() {
       id="home"
       aria-labelledby="hero-title"
       style={anchorOffsetStyle}
-      className="relative flex flex-col items-center text-center bg-gradient-to-b from-[#0f0c29] via-[#1a1446] to-[#24243e] px-6"
-    >
+      className="relative flex flex-col items-center text-center px-6"    >
       {/* Fit hero within one screen below any global header */}
       <div
         className="w-full max-w-6xl mx-auto pt-8 md:pt-10"
@@ -181,7 +180,7 @@ function HomeHero() {
             decoding="async"
             fetchPriority="high"
           />
-          <span className="text-white/50">|</span>
+
           <img
             src="/assets/fallfest/qiskit%20logo.svg"
             alt="Qiskit"
@@ -191,7 +190,7 @@ function HomeHero() {
             decoding="async"
             fetchPriority="high"
           />
-          <span className="text-white/50">|</span>
+
           <img
             src="/logo-mono.png"
             alt="Symbiosis Quantum Club"
@@ -265,10 +264,11 @@ function EventSection() {
       id="event"
       aria-labelledby="event-title"
       style={anchorOffsetStyle}
-      className="max-w-6xl mx-auto mt-10 px-6 sm:px-12"
-    >
+      className="relative flex flex-col items-center text-center px-6">
+        <br></br>
+        <br></br>
       <SectionHeading title="Event: Fundamentals of Quantum Mechanics" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-2">
         <div className="space-y-4 text-gray-200">
           <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
             <li>Three focused days combining live instruction with hands‑on labs to build intuition quickly.</li>
@@ -301,8 +301,9 @@ function ScheduleSection() {
       id="schedule"
       aria-labelledby="schedule-title"
       style={anchorOffsetStyle}
-      className="max-w-6xl mx-auto px-6 sm:px-12 my-12 bg-gradient-to-b from-[#0b1220] to-[#0f0c29] rounded-2xl py-10"
-    >
+      className="relative flex flex-col items-center text-center px-6">
+        <br></br>
+        <br></br>
       <SectionHeading title="Schedule / Program" />
       <div className="overflow-x-auto">
         <img
@@ -387,8 +388,9 @@ function SpeakersSection() {
       id="speakers"
       aria-labelledby="speakers-title"
       style={anchorOffsetStyle}
-      className="max-w-6xl mx-auto px-6 sm:px-12 my-12 bg-gradient-to-b from-[#0f0c29] via-[#251b3e] to-[#0f0c29] rounded-2xl py-10"
-    >
+      className="relative flex flex-col items-center text-center px-6"    >
+        <br></br>
+        <br></br>
       <SectionHeading title="Speakers & Mentors" />
       <div className="grid sm:grid-cols-2 gap-8">
         {speakers.map(({ name, role, img, bio, sessionHref }, i) => (
@@ -427,8 +429,9 @@ function RegisterSection() {
       id="register"
       aria-labelledby="register-title"
       style={anchorOffsetStyle}
-      className="max-w-3xl mx-auto px-6 py-12 text-center"
-    >
+      className="relative flex flex-col items-center text-center px-6"    >
+        <br></br>
+        <br></br>
       <SectionHeading title="Register" />
       <ul className="mb-6 text-gray-300 text-base sm:text-lg list-disc pl-5 space-y-2 text-left max-w-2xl mx-auto">
         <li>Open to everyone; no prior experience required.</li>
@@ -451,8 +454,9 @@ function ResourcesSection() {
       id="resources"
       aria-labelledby="resources-title"
       style={anchorOffsetStyle}
-      className="max-w-6xl mx-auto px-6 sm:px-12 my-12 text-center"
-    >
+      className="relative flex flex-col items-center text-center px-6"    >
+        <br></br>
+        <br></br>
       <SectionHeading title="Resources" />
       <p className="text-gray-400 max-w-xl mx-auto mb-6">
         Notebooks, slides, and recordings will be published after each session in the official repository.
@@ -494,8 +498,9 @@ function TeamSponsorsSection() {
       id="team"
       aria-labelledby="team-title"
       style={anchorOffsetStyle}
-      className="max-w-6xl mx-auto px-6 sm:px-12 my-12 text-center"
-    >
+      className="relative flex flex-col items-center text-center px-6"    >
+        <br></br>
+        <br></br>
       <SectionHeading title="Team · Organizers · Sponsors" />
       <div className="flex flex-wrap items-center justify-center gap-8">
         {logos.map(({ src, alt }, i) => (
@@ -524,8 +529,9 @@ function CodeOfConductSection() {
       id="coc"
       aria-labelledby="coc-title"
       style={anchorOffsetStyle}
-      className="max-w-5xl mx-auto px-6 sm:px-12 py-12 text-gray-300"
-    >
+      className="relative flex flex-col items-center text-center px-6"    >
+        <br></br>
+        <br></br>
       <SectionHeading title="Code of Conduct" />
       <p className="mt-2">
         This virtual event is committed to a respectful, inclusive, and harassment‑free experience for everyone, consistent with widely adopted community standards and IBM Quantum community values.
@@ -571,8 +577,9 @@ function CodeOfConductSection() {
 }
 
 function CodeOfConductFooter() {
-  return (
-    <footer className="bg-gray-900 py-6 text-center text-gray-400 text-sm border-t border-gray-800">
+
+    return (
+    <footer className="bg-[#003580] py-6 text-center text-gray-400 text-sm border-t">
       <a
         className="underline hover:text-[#ff4e50]"
         href="#coc"
@@ -596,8 +603,7 @@ export default function FallFestPage() {
 
   return (
     <main
-      className="bg-[#0f0c29] text-white font-sans min-h-screen scroll-smooth"
-      style={{
+        className="bg-[#0f0c29] bg-gradient-to-b from-[#00122B] via-[#102F5B] to-[#003580] text-white font-sans min-h-screen scroll-smooth"      style={{
         // If the main site uses a fixed global header, set its height here (e.g., 64px)
         // @ts-ignore: CSS custom property
         "--global-nav-h": "64px",
