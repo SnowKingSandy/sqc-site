@@ -3,8 +3,10 @@
 import { useEffect, useState, useCallback, SetStateAction} from "react";
 import FadeInOnScroll from "@/components/sections/FadeInOnScroll";
 import SectionHeading from "@/components/ui/section-heading";
+import SubSectionHeading from "@/components/ui/sectionSubHeading";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent} from "@/components/ui/card";
+import EHeading from "@/components/ui/event-section-heading"
 
 
 // Focus and CTA styles
@@ -181,7 +183,8 @@ function HomeHero() {
                     />
 
                     <img
-                        src="/assets/fallfest/Badge_03.png"
+                        style={{ width: "8%", height: "8%" }}
+                        src="/assets/fallfest/Badge.png"
                         alt="Fall Fest Badge"
                         className={`${logoH} w-auto object-contain block`}
                         onError={onQiskitError}
@@ -208,17 +211,17 @@ function HomeHero() {
                 </div>
 
                 {/* Quick facts as chips */}
-                <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
+                <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.9 mb-10">
                     {[
                         "Fundamentals of Quantum Mechanics",
-                        "Live 3‑day online program",
-                        "Assessment → certification eligibility",
+                        "Live 3‑Day Online Program",
+                        "Assessment for Certification",
                         "Dates: TBA",
-                        "Open to everyone",
+                        "Open to Everyone",
                     ].map((item, i) => (
                         <li
                             key={i}
-                            className="text-sm sm:text-base text-[#40c0cb] bg-[#40c0cb]/10 border border-[#40c0cb]/30 rounded-full px-3 py-1"
+                            className="text-sm sm:text-base text-[#40c0cb] bg-[#4035AB] border-3 border-[#185270] rounded-full px-4 py-1"
                         >
                             {item}
                         </li>
@@ -226,16 +229,13 @@ function HomeHero() {
                 </ul>
 
                 <p className="mb-6 max-w-3xl text-gray-200 mx-auto text-base sm:text-lg">
-                    Build a solid conceptual foundation and practice circuits with Qiskit in guided labs, then validate
+                    Build a solid conceptual foundation and practice circuits with Qiskit in guided labs. Validate
                     learning with a short assessment for a course certificate.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-2 justify-center">
                     <Button asChild size="lg" className={ctaPrimary}>
                         <a href="#register" aria-label="Register Now">Register Now</a>
-                    </Button>
-                    <Button asChild size="lg" variant="outline" className={ctaSecondary}>
-                        <a href="#event" aria-label="See event details">Event Details</a>
                     </Button>
                 </div>
             </div>
@@ -253,23 +253,26 @@ function EventSection() {
             className="relative flex flex-col px-6">
             <br></br>
             <br></br>
-            <SectionHeading title="Event: Fundamentals of Quantum Mechanics"/>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-2">
-                <div className="space-y-4 text-gray-200">
-                    <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-                        <li>Three focused days combining live instruction with hands‑on labs to build intuition
-                            quickly.
-                        </li>
-                        <li>Guided practice with Qiskit: states, gates, circuits, and simple algorithms.</li>
-                        <li>Short assessment at the end; successful completion makes participants eligible for a course
-                            certificate.
-                        </li>
-                        <li>Dates: TBA · Open to all backgrounds and experience levels.</li>
-                    </ul>
-                    <div className="pt-2">
-                        <Button asChild size="lg" className={ctaPrimary}>
-                            <a href="#register" aria-label="Open registration">Register (Open)</a>
-                        </Button>
+            <EHeading title="Event"/>
+            <SubSectionHeading title="Fundamentals of Quantum Mechanics"/>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mt-2">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-6">
+                    <div className="space-y-4 text-gray-200">
+                        <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
+                            <li>Three focused days combining live instruction with hands‑on labs to build intuition
+                                quickly.
+                            </li>
+                            <li>Guided practice with Qiskit: states, gates, circuits, and simple algorithms.</li>
+                            <li>Short assessment at the end; successful completion makes participants eligible for a course
+                                certificate.
+                            </li>
+                            <li>Dates: TBA · Open to all backgrounds and experience levels.</li>
+                        </ul>
+                        <div className="pt-2">
+                            <Button asChild size="lg" className={ctaPrimary}>
+                                <a href="#register" aria-label="Open registration">Register (Open)</a>
+                            </Button>
+                        </div>
                     </div>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-white/5 p-6">
@@ -294,7 +297,7 @@ function ScheduleSection() {
             className="relative flex flex-col items-center text-center px-6">
             <br></br>
             <br></br>
-            <SectionHeading title="Schedule / Program"/>
+            <SectionHeading title="Schedule"/>
             <div className="overflow-x-auto">
                 <img
                     src="/assets/fallfest/Timeline_01.png"
@@ -342,14 +345,6 @@ function ScheduleSection() {
                         </ul>
                     </CardContent>
                 </Card>
-            </div>
-
-            <div className="flex justify-center mt-8">
-                <Button asChild size="lg" variant="outline" className={ctaSecondary}>
-                    <a href="/assets/fallfest/FallFest_Schedule.pdf" download aria-label="Download schedule PDF">
-                        Download Full Schedule (PDF)
-                    </a>
-                </Button>
             </div>
         </section>
     );
@@ -418,7 +413,7 @@ function RegisterSection() {
                 <li>Join the 3‑day live program and complete the short assessment.</li>
                 <li>Eligible participants receive a course certificate.</li>
             </ul>
-            <Button asChild size="lg" className={`${ctaPrimary} px-10 py-3`}>
+            <Button asChild variant="bestVariant" size="lg" className={`${ctaPrimary} px-10 py-3`}>
                 <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Register">Register Now</a>
             </Button>
         </section>
@@ -426,8 +421,6 @@ function RegisterSection() {
 }
 
 function ResourcesSection() {
-    const version = "v2025.09.16";
-    const updated = "Updated Sep 16, 2025";
 
     return (
         <section
@@ -441,11 +434,7 @@ function ResourcesSection() {
             <p className="text-gray-400 max-w-xl mx-auto mb-6">
                 Notebooks, slides, and recordings will be published after each session in the official repository.
             </p>
-            <div className="flex items-center justify-center gap-3 mb-6 text-sm text-gray-400">
-                <span className="px-2 py-1 rounded bg-white/5 border border-white/10">{version}</span>
-                <span className="px-2 py-1 rounded bg-white/5 border border-white/10">{updated}</span>
-            </div>
-            <Button asChild variant="outline" size="lg" className={ctaSecondary}>
+            <Button asChild variant="outline2" size="lg" className={ctaSecondary}>
                 <a href="https://github.com/Symbiosis-Quantum-Club" target="_blank" rel="noopener noreferrer" aria-label="View GitHub Page">
                     View GitHub Page
                 </a>
@@ -504,10 +493,10 @@ function ColabSection() {
 
 function OrganizersSection() {
     const organizers = [
-        {name: "Dr. Archana Chaudhari", role: "Faculty in-Charge", img: "#", email: "archana.chaudhari@sitpune.edu.in"},
-        {name: "Samarth Bhadane", role: "Club Head", img: "#", email: "samarth.bhadane.btech2023@sitpune.edu.in"},
-        {name: "Anirudh Raman", role: "Research Head", img: "#", email: "ganapathy.anirudh.btech2023@sitpune.edu.in"},
-        {name: "Eric Siquiera", role: "Technical Head", img: "#", email: "eric.siqueira.btech2023@sitpune.edu.in"},
+        {name: "Dr. Archana Chaudhari", role: "Faculty in-Charge", img: "/assets/team/Archana ma'am.png", email: "archana.chaudhari@sitpune.edu.in"},
+        {name: "Samarth Bhadane", role: "Club Head", img: "/assets/team/Samarth.png", email: "samarth.bhadane.btech2023@sitpune.edu.in"},
+        {name: "Anirudh Raman", role: "Research Head", img: "assets/team/Anirudh.png", email: "ganapathy.anirudh.btech2023@sitpune.edu.in"},
+        {name: "Eric Siquiera", role: "Technical Head", img: "/assets/team/Eric.png", email: "eric.siqueira.btech2023@sitpune.edu.in"},
         {name: "Disha Gupta", role: "Technical Head", img: "#", email: "disha.gupta.btech2023@sitpune.edu.in"},
     ];
 
