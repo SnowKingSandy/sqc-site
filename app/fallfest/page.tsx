@@ -413,7 +413,7 @@ function RegisterSection() {
                 <li>Join the 3‑day live program and complete the short assessment.</li>
                 <li>Eligible participants receive a course certificate.</li>
             </ul>
-            <Button asChild variant="bestVariant" size="lg" className={`${ctaPrimary} px-10 py-3`}>
+            <Button asChild variant="bestVariant" size="lg" className={`${ctaSecondary} px-10 py-3`}>
                 <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Register">Register Now</a>
             </Button>
         </section>
