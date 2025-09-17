@@ -250,7 +250,7 @@ function EventSection() {
             id="event"
             aria-labelledby="event-title"
             style={anchorOffsetStyle}
-            className="relative flex flex-col items-center text-center px-6">
+            className="relative flex flex-col px-6">
             <br></br>
             <br></br>
             <SectionHeading title="Event: Fundamentals of Quantum Mechanics"/>
@@ -358,18 +358,16 @@ function ScheduleSection() {
 function SpeakersSection() {
     const speakers = [
         {
-            name: "Speaker 1",
+            name: "Session 1",
             role: "Quantum Researcher",
             img: "/assets/fallfest/Cat_01.png",
-            bio: "Expert in quantum algorithms and computing education.",
-            sessionHref: "#",
+            bio: "Expert in quantum algorithms and computing education."
         },
         {
-            name: "Speaker 2",
+            name: "Session 2",
             role: "IBM Engineer",
             img: "/assets/fallfest/Cat_02.png",
             bio: "Specialist in quantum software development and community advocacy.",
-            sessionHref: "#",
         },
     ];
 
@@ -383,7 +381,7 @@ function SpeakersSection() {
             <br></br>
             <SectionHeading title="Speakers & Mentors"/>
             <div className="grid sm:grid-cols-2 gap-8">
-                {speakers.map(({name, role, img, bio, sessionHref}, i) => (
+                {speakers.map(({name, role, img, bio}, i) => (
                     <Card
                         key={i}
                         className="bg-gray-900/80 p-6 flex flex-col items-center text-center rounded-lg hover:shadow-lg transition-shadow"
