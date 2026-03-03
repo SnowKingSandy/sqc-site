@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,11 +27,10 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { name: "FallFest", href: "/fallfest" },
-    { name: "ChatBot", href: "/chatbot" },
+    { name: "Spotlight", href: "/spotlight" },
     { name: "Team", href: "/team" },
-    { name: "Mission", href: "/mission" },
-    { name: "Contact", href: "/contact" },
+    { name: "ChatBot", href: "/chatbot" },
+    { name: "FallFest", href: "/fallfest", special: true },
   ];
 
   return (
@@ -41,134 +41,171 @@ export default function Navbar() {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
           }
+          .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+          }
+          .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00D9FF, #7C3AED);
+            transition: width 0.3s ease;
+          }
+          .nav-link:hover::after {
+            width: 100%;
+          }
+          .nav-link.active::after {
+            width: 100%;
+          }
           .fallfest-gradient-border {
-            background: linear-gradient(270deg, #00f0ff, #7c3aed, #e600ffff, #00f0ff 90%);
-            background-size: 400% 400%;
+            background: linear-gradient(270deg, #00D9FF, #7C3AED, #00D9FF);
+            background-size: 200% 200%;
             animation: gradient-move 3.5s linear infinite;
             border-radius: 9999px;
-            padding: 2.5px;
-            display: inline-block;
-            box-shadow: 0 0 8px 2px #7c3aed55, 0 0 16px 4px #00f0ff33;
+            padding: 2px;
+            display: inline-flex;
+            box-shadow: 0 0 12px rgba(0, 217, 255, 0.2), 0 0 24px rgba(124, 58, 237, 0.1);
           }
           .fallfest-inner {
-            background: #030618;
+            background: linear-gradient(180deg, rgba(3, 6, 24, 0.95), rgba(6, 10, 44, 0.95));
             border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.25rem 1.1rem;
-            min-width: 80px;
-          }
-          .fallfest-gradient-text {
-            background: linear-gradient(270deg, #00f0ff, #7c3aed, #e600ffff, #00f0ff 90%);
-            background-size: 400% 400%;
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
+            padding: 0.5rem 1.25rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(90deg, #00D9FF, #7C3AED, #00D9FF);
+            background-size: 200% 200%;
             animation: gradient-move 3.5s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
           }
         `}
       </style>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-          isScrolled ? "bg-[#030618]/90 backdrop-blur-sm border-b border-gray-800/50" : ""
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? "bg-quantum-dark/80 backdrop-blur-md border-b border-quantum-accent/20 shadow-lg" 
+            : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-1 h-14 sm:h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <Image src="/logo.svg" width={70} height={70} alt="Logo" />
-            <span className="font-title font-medium text-base xs:text-lg truncate max-w-[100px] sm:max-w-none">
-              <span className="hidden sm:inline">Symbiosis Quantum Club</span>
+        <div className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-10 h-10 md:w-12 md:h-12">
+              <Image 
+                src="/logo.svg" 
+                width={48} 
+                height={48} 
+                alt="Symbiosis Quantum Club" 
+                className="group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <span className="hidden sm:inline font-title text-lg md:text-xl font-bold bg-gradient-to-r from-quantum-accent via-quantum-purple to-quantum-blue bg-clip-text text-transparent">
+              Symbiosis Quantum Club
             </span>
           </Link>
 
-          {/* Desktop navigation */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => (
-              item.name === "FallFest" ? (
-                <span key={item.name} className="fallfest-gradient-border">
-                  <Link href={item.href} className="fallfest-inner">
-                    <span className="fallfest-gradient-text font-display text-sm">{item.name}</span>
+              item.special ? (
+                <div key={item.name} className="fallfest-gradient-border">
+                  <Link 
+                    href={item.href}
+                    className="fallfest-inner px-6 py-2 text-sm font-display font-bold"
+                  >
+                    {item.name}
                   </Link>
-                </span>
+                </div>
               ) : (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-sm font-display transition-colors px-2 py-1 ${
-                    pathname === item.href ? "text-red font-medium" : "text-white"
+                  className={`nav-link text-sm md:text-base font-display tracking-wide transition-all duration-300 ${
+                    pathname === item.href 
+                      ? "active text-quantum-accent" 
+                      : "text-gray-300 hover:text-white"
                   }`}
                 >
                   {item.name}
                 </Link>
               )
             ))}
-            <Button className="bg-blue-800 text-white hover:bg-blue-600 font-display">Join Us</Button>
           </nav>
 
-          {/* Mobile navigation */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="sm" className="text-gray-200 h-10 w-10 p-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+          <div className="flex items-center gap-3 md:gap-4">
+            {/* CTA Button - Hidden on small screens, shown on medium+ */}
+            <Button 
+              asChild
+              className="hidden md:inline-flex bg-gradient-to-r from-quantum-blue to-quantum-purple hover:shadow-quantum-glow text-white font-display font-semibold px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
+            >
+              <Link href="/#join">Get Started</Link>
+            </Button>
+
+            {/* Mobile Menu Trigger */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild className="lg:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-gray-300 hover:text-white hover:bg-quantum-medium transition-colors"
                 >
-                  <line x1="4" x2="20" y1="12" y2="12" />
-                  <line x1="4" x2="20" y1="6" y2="6" />
-                  <line x1="4" x2="20" y1="18" y2="18" />
-                </svg>
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[80%] max-w-[280px] bg-[#030618]/95 border-gray-800">
-              <SheetHeader className="pb-2 border-b border-gray-800/50">
-                <SheetTitle className="text-white">Menu</SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col mt-1 gap-2 p-2">
-                {navItems.map((item) => (
-                  <SheetClose asChild key={item.name}>
-                    {item.name === "FallFest" ? (
-                      <span className="fallfest-gradient-border">
-                        <Link href={item.href} className="fallfest-inner">
-                          <span className="fallfest-gradient-text font-display text-base">{item.name}</span>
-                        </Link>
-                      </span>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className={`py-1 px-4 text-base hover:text-gray-300 ${
-                          pathname === item.href
-                            ? "text-white font-medium border-l-2 border-blue-500"
-                            : "text-gray-300"
-                        }`}
-                      >
-                        <SheetTitle
-                          className={
-                            item.name === "FallFest"
-                              ? "text-yellow-400 hover:text-yellow-300 blink-animation fallfest-hover-bg"
-                              : "text-gray-300 hover:text-gray-100"
-                          }
+                  <Menu size={24} />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent 
+                side="right" 
+                className="w-[280px] bg-gradient-to-b from-quantum-dark to-quantum-medium border-quantum-accent/30 shadow-quantum-glow"
+              >
+                <SheetHeader className="pb-4 border-b border-quantum-accent/20">
+                  <SheetTitle className="text-white text-xl font-title">Menu</SheetTitle>
+                </SheetHeader>
+                <nav className="flex flex-col mt-6 gap-2">
+                  {navItems.map((item) => (
+                    <SheetClose asChild key={item.name}>
+                      {item.special ? (
+                        <div className="fallfest-gradient-border w-full">
+                          <Link 
+                            href={item.href}
+                            className="fallfest-inner w-full justify-center py-3 text-base font-display font-bold"
+                          >
+                            {item.name}
+                          </Link>
+                        </div>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className={`py-3 px-4 rounded-lg transition-all duration-300 font-display text-base ${
+                            pathname === item.href
+                              ? "bg-quantum-accent/20 text-quantum-accent border-l-4 border-quantum-accent pl-2"
+                              : "text-gray-300 hover:text-white hover:bg-quantum-medium"
+                          }`}
                         >
                           {item.name}
-                        </SheetTitle>
-                      </Link>
-                    )}
+                        </Link>
+                      )}
+                    </SheetClose>
+                  ))}
+                  <SheetClose asChild>
+                    <Button 
+                      asChild
+                      className="w-full mt-4 bg-gradient-to-r from-quantum-blue to-quantum-purple hover:shadow-quantum-glow text-white font-display font-semibold py-3 rounded-lg transition-all duration-300"
+                    >
+                      <Link href="/#join">Get Started</Link>
+                    </Button>
                   </SheetClose>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
     </>
