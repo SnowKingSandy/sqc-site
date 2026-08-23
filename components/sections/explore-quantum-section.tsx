@@ -82,16 +82,16 @@ export default function ExploreQuantumSection() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16 md:mb-20 space-y-4"
           >
-            <span className="inline-block text-quantum-primary text-sm font-semibold tracking-widest uppercase">
+            <span className="inline-block text-primary text-sm font-semibold tracking-widest uppercase">
               Learning Paths
             </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-quantum-text leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary leading-[1.1]">
               Explore the{" "}
-              <span className="bg-gradient-to-r from-quantum-primary via-quantum-secondary to-quantum-accent bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Quantum Universe
               </span>
             </h2>
-            <p className="text-lg md:text-xl text-quantum-text-secondary leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl mx-auto">
               Dive deep into quantum computing through our curated learning paths and hands-on experiences.
             </p>
           </motion.div>
@@ -110,7 +110,7 @@ export default function ExploreQuantumSection() {
                 <motion.div
                   key={index}
                   variants={cardVariants}
-                  className="explore-card group relative p-8 md:p-10 rounded-2xl bg-quantum-surface/50 border border-quantum-border hover:border-quantum-primary/50 backdrop-blur-lg overflow-hidden"
+                  className="explore-card group relative p-8 md:p-10 rounded-2xl bg-surface-card/50 border border-border-subtle hover:border-primary/50 backdrop-blur-lg overflow-hidden"
                 >
                   {/* Gradient background glow */}
                   <div
@@ -124,23 +124,23 @@ export default function ExploreQuantumSection() {
                       <div
                         className={`absolute inset-0 bg-gradient-to-br ${card.gradient} rounded-2xl opacity-20 blur-xl group-hover:blur-2xl group-hover:opacity-40 transition-all duration-300`}
                       />
-                      <div className="icon-container relative w-full h-full flex items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-quantum-bg/80 to-quantum-surface/60 border border-quantum-border">
-                        <Icon className="w-12 h-12 md:w-14 md:h-14 text-quantum-primary" />
+                      <div className="icon-container relative w-full h-full flex items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-bg-primary/80 to-surface-card/60 border border-border-subtle">
+                        <Icon className="w-12 h-12 md:w-14 md:h-14 text-primary" />
                       </div>
                     </div>
 
                     {/* Text Content */}
                     <div className="space-y-4">
-                      <h3 className="text-2xl md:text-3xl font-bold text-quantum-text leading-tight">
+                      <h3 className="text-2xl md:text-3xl font-bold text-text-primary leading-tight">
                         {card.title}
                       </h3>
-                      <p className="text-base md:text-lg text-quantum-text-secondary leading-relaxed">
+                      <p className="text-base md:text-lg text-text-secondary leading-relaxed">
                         {card.description}
                       </p>
                     </div>
 
                     {/* CTA with Arrow */}
-                    <div className="flex items-center gap-3 text-quantum-primary font-semibold group-hover:gap-4 transition-all duration-300 cursor-pointer">
+                    <div className="flex items-center gap-3 text-primary font-semibold group-hover:gap-4 transition-all duration-300 cursor-pointer">
                       <span>Learn More</span>
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
                     </div>

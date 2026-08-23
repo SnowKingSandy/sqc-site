@@ -54,7 +54,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-quantum-accent/10 bg-gradient-to-b from-quantum-dark/50 to-quantum-dark mt-20">
+    <footer className="relative border-t border-border-subtle bg-bg-secondary mt-20">
       <div className="absolute inset-0 bg-mesh-gradient opacity-5 pointer-events-none" />
       
       <div className="container mx-auto px-4 py-16 relative z-10">
@@ -72,11 +72,11 @@ export default function Footer() {
                   className="group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
-              <span className="font-title font-bold text-lg bg-gradient-to-r from-quantum-accent to-quantum-purple bg-clip-text text-transparent">
+              <span className="font-title font-bold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 SQC
               </span>
             </Link>
-            <p className="font-display text-gray-400 text-sm leading-relaxed">
+            <p className="font-display text-text-secondary text-sm leading-relaxed">
               Exploring the quantum realm, one qubit at a time. Join our community of quantum enthusiasts.
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function Footer() {
           {/* Footer Links */}
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h3 className="font-title text-white font-bold text-sm mb-4 uppercase tracking-wide">
+              <h3 className="font-title text-text-primary font-bold text-sm mb-4 uppercase tracking-wide">
                 {section.title}
               </h3>
               <ul className="space-y-2">
@@ -94,7 +94,7 @@ export default function Footer() {
                       href={link.href}
                       target={link.href.startsWith("http") ? "_blank" : undefined}
                       rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="font-display text-gray-400 hover:text-quantum-accent transition-colors duration-300 text-sm"
+                      className="font-display text-text-secondary hover:text-primary transition-colors duration-300 text-sm"
                     >
                       {link.name}
                     </Link>
@@ -106,15 +106,18 @@ export default function Footer() {
 
           {/* Newsletter / CTA Section */}
           <div>
-            <h3 className="font-title text-white font-bold text-sm mb-4 uppercase tracking-wide">
+            <h3 className="font-title text-text-primary font-bold text-sm mb-4 uppercase tracking-wide">
               Stay Updated
             </h3>
-            <p className="font-display text-gray-400 text-sm mb-4">
+            <p className="font-display text-text-secondary text-sm mb-4">
               Get the latest news and events from Symbiosis Quantum Club.
             </p>
             <Link
               href="/#join"
-              className="inline-block px-4 py-2 bg-gradient-to-r from-quantum-blue to-quantum-purple rounded-full text-white text-sm font-display font-semibold hover:shadow-quantum-glow transition-all duration-300"
+              className="inline-block px-4 py-2 bg-gradient-to-r from-primary to-secondary rounded-full text-text-primary text-sm font-display font-semibold hover:shadow-lg transition-all duration-300"
+              style={{
+                boxShadow: '0 0 20px rgba(0, 240, 255, 0.3)',
+              }}
             >
               Join Us
             </Link>
@@ -122,8 +125,8 @@ export default function Footer() {
         </div>
 
         {/* Social Links */}
-        <div className="border-t border-quantum-accent/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="font-display text-gray-500 text-sm">
+        <div className="border-t border-border-subtle pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="font-display text-text-muted text-sm">
             © {currentYear} Symbiosis Quantum Club. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
@@ -134,7 +137,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.name}
-                className="text-gray-400 hover:text-quantum-accent transition-all duration-300 hover:scale-110"
+                className="text-text-secondary hover:text-primary transition-all duration-300 hover:scale-110"
               >
                 {link.icon}
               </a>

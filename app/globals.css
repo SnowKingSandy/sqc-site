@@ -2,62 +2,43 @@
 
 @layer base {
   :root {
-    /* Quantum/Tech Color System */
+    /* PRIMARY TOKENS */
     --bg-primary: #0B0F1A;
-    --bg-secondary: #0F1628;
-    --bg-tertiary: #141B2D;
-    --bg-surface: #131820;
-    --bg-surface-hover: #1A2332;
+    --bg-secondary: #12182B;
+    --bg-tertiary: #0F1424;
+    --surface-card: #1A2238;
     
-    /* Primary - Electric Cyan */
-    --color-primary: #00F0FF;
-    --color-primary-dark: #00A8B5;
-    --color-primary-light: #33F7FF;
-    --color-primary-muted: rgba(0, 240, 255, 0.2);
+    /* ACCENT COLORS */
+    --primary: #00F0FF;
+    --secondary: #7B2FF7;
+    --accent: #FF2E9A;
+    --success: #00FF88;
     
-    /* Secondary - Quantum Purple */
-    --color-secondary: #7B2FF7;
-    --color-secondary-dark: #5A1FB8;
-    --color-secondary-light: #9E5FF9;
-    --color-secondary-muted: rgba(123, 47, 247, 0.2);
+    /* TEXT COLORS */
+    --text-primary: #E6F1FF;
+    --text-secondary: #8FA2C9;
+    --text-muted: #5A6B91;
     
-    /* Accent - Neon Magenta */
-    --color-accent: #FF2E9A;
-    --color-accent-dark: #CC2478;
-    --color-accent-light: #FF6BB3;
-    --color-accent-muted: rgba(255, 46, 154, 0.2);
+    /* BORDERS */
+    --border-subtle: rgba(255,255,255,0.08);
     
-    /* Text Colors */
-    --color-text: #E6F1FF;
-    --color-text-secondary: #A8C5FF;
-    --color-text-tertiary: #6B8CB8;
-    --color-text-muted: #4A5F7F;
-    
-    /* Borders & Dividers */
-    --color-border: #1A2332;
-    --color-border-light: #2A3545;
-    --color-divider: rgba(26, 35, 50, 0.5);
-
-    /* Tailwind Theme Variables */
+    /* LEGACY SUPPORT - Maps to new system */
     --background: var(--bg-primary);
-    --foreground: var(--color-text);
-    --card: var(--bg-secondary);
-    --card-foreground: var(--color-text);
+    --foreground: var(--text-primary);
+    --card: var(--surface-card);
+    --card-foreground: var(--text-primary);
     --popover: var(--bg-secondary);
-    --popover-foreground: var(--color-text);
-    --primary: var(--color-primary);
+    --popover-foreground: var(--text-primary);
     --primary-foreground: var(--bg-primary);
-    --secondary: var(--color-secondary);
-    --secondary-foreground: var(--color-text);
+    --secondary-foreground: var(--text-primary);
     --muted: var(--bg-tertiary);
-    --muted-foreground: var(--color-text-tertiary);
-    --accent: var(--color-accent);
+    --muted-foreground: var(--text-muted);
     --accent-foreground: var(--bg-primary);
-    --destructive: #FF2E9A;
-    --destructive-foreground: var(--color-text);
-    --border: var(--color-border);
-    --input: var(--color-border);
-    --ring: var(--color-primary);
+    --destructive: var(--accent);
+    --destructive-foreground: var(--text-primary);
+    --border: var(--border-subtle);
+    --input: var(--surface-card);
+    --ring: var(--primary);
   }
 
   html {
@@ -68,14 +49,14 @@
     font-family: var(--font-geist-sans), system-ui, sans-serif;
     background-color: var(--bg-primary);
     background-image: 
-      radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.03), transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(123, 47, 247, 0.03), transparent 50%);
+      radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.02), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(123, 47, 247, 0.02), transparent 50%);
     background-attachment: fixed;
-    color: var(--color-text);
+    color: var(--text-primary);
   }
 
   * {
-    border-color: var(--color-border);
+    border-color: var(--border-subtle);
   }
 
   /* Typography System */
@@ -178,38 +159,53 @@
     }
   }
 
-  /* Glass Morphism */
+  /* Glass Morphism with Backdrop Blur */
   .glass {
     backdrop-filter: blur(12px);
-    background-color: rgba(19, 24, 32, 0.5);
-    border: 1px solid var(--color-border);
+    background-color: rgba(26, 34, 56, 0.4);
+    border: 1px solid var(--border-subtle);
     border-radius: 0.5rem;
   }
 
   .glass-lg {
-    backdrop-filter: blur(24px);
-    background-color: rgba(26, 35, 50, 0.4);
-    border: 1px solid var(--color-border-light);
+    backdrop-filter: blur(16px);
+    background-color: rgba(26, 34, 56, 0.5);
+    border: 1px solid var(--border-subtle);
     border-radius: 0.75rem;
+  }
+
+  /* Card Base Styles */
+  .card-base {
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-base:hover {
+    border-color: var(--primary);
+    box-shadow: 
+      0 0 20px rgba(0, 240, 255, 0.3),
+      inset 0 0 1px rgba(0, 240, 255, 0.2);
   }
 
   /* Gradient Text */
   .gradient-text-primary {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    background: linear-gradient(135deg, var(--primary), #33F7FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .gradient-text-secondary {
-    background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .gradient-text-accent {
-    background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));
+    background: linear-gradient(135deg, var(--accent), var(--secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -263,12 +259,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--color-primary-light), var(--color-secondary-light));
+    background: linear-gradient(180deg, #33F7FF, #9E5FF9);
   }
 
   /* Form Elements */
@@ -278,9 +274,9 @@
   input[type="number"],
   textarea,
   select {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
     border-radius: 0.5rem;
     padding: 0.75rem;
     transition: all 0.2s ease;
@@ -290,7 +286,7 @@
   input[type="email"]::placeholder,
   input[type="password"]::placeholder,
   textarea::placeholder {
-    color: var(--color-text-muted);
+    color: var(--text-muted);
   }
 
   input[type="text"]:focus,
@@ -299,7 +295,7 @@
   input[type="number"]:focus,
   textarea:focus,
   select:focus {
-    border-color: var(--color-primary);
+    border-color: var(--primary);
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1);
   }

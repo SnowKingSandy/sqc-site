@@ -33,7 +33,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden bg-quantum-bg">
+    <section className="relative h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden bg-bg-primary">
       <style>
         {`
           @keyframes float-up {
@@ -60,7 +60,7 @@ export default function HeroSection() {
             opacity: 0.08;
           }
           .typing-text {
-            color: #00F0FF;
+            color: var(--primary);
             font-weight: 700;
           }
         `}
@@ -69,15 +69,15 @@ export default function HeroSection() {
       {/* Motion Background - Right Side Orbs & Orbital Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Orbs - Positioned for right side emphasis */}
-        <div className="absolute top-1/4 right-10 w-96 h-96 bg-quantum-primary/15 rounded-full glow-orb" />
-        <div className="absolute top-1/2 right-32 w-72 h-72 bg-quantum-secondary/12 rounded-full glow-orb-slow" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-quantum-accent/10 rounded-full glow-orb" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-1/4 right-10 w-96 h-96 bg-primary/15 rounded-full glow-orb" />
+        <div className="absolute top-1/2 right-32 w-72 h-72 bg-secondary/12 rounded-full glow-orb-slow" style={{ animationDelay: "1s" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/10 rounded-full glow-orb" style={{ animationDelay: "2s" }} />
 
         {/* Orbital Rings - Centered, subtle background */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="absolute w-[800px] h-[800px] rounded-full border border-quantum-primary/20 orbital animate-spin" style={{ animationDuration: "80s", animationDirection: "normal" }} />
-          <div className="absolute w-[500px] h-[500px] rounded-full border border-quantum-secondary/15 orbital animate-spin" style={{ animationDuration: "60s", animationDirection: "reverse" }} />
-          <div className="absolute w-[250px] h-[250px] rounded-full border border-quantum-accent/10 orbital animate-spin" style={{ animationDuration: "40s", animationDirection: "normal" }} />
+          <div className="absolute w-[800px] h-[800px] rounded-full border border-primary/20 orbital animate-spin" style={{ animationDuration: "80s", animationDirection: "normal" }} />
+          <div className="absolute w-[500px] h-[500px] rounded-full border border-secondary/15 orbital animate-spin" style={{ animationDuration: "60s", animationDirection: "reverse" }} />
+          <div className="absolute w-[250px] h-[250px] rounded-full border border-accent/10 orbital animate-spin" style={{ animationDuration: "40s", animationDirection: "normal" }} />
         </div>
       </div>
 
@@ -94,17 +94,17 @@ export default function HeroSection() {
             {/* Animated Badge */}
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 w-fit px-4 py-2 rounded-full bg-quantum-bg/40 border border-quantum-primary/40 backdrop-blur-md"
+              className="inline-flex items-center gap-2 w-fit px-4 py-2 rounded-full bg-bg-primary/40 border border-primary/40 backdrop-blur-md"
             >
-              <span className="w-2 h-2 bg-quantum-primary rounded-full animate-pulse" />
-              <span className="text-quantum-primary text-xs md:text-sm font-semibold tracking-widest uppercase">
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              <span className="text-primary text-xs md:text-sm font-semibold tracking-widest uppercase">
                 Welcome to the Future
               </span>
             </motion.div>
 
             {/* Headline */}
             <motion.div variants={itemVariants} className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] text-quantum-text">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.1] text-text-primary">
                 Explore the Quantum
                 <br />
                 <TypingEffect
@@ -120,7 +120,7 @@ export default function HeroSection() {
             {/* Subheading */}
             <motion.p
               variants={itemVariants}
-              className="text-lg md:text-xl text-quantum-text-secondary leading-relaxed max-w-lg"
+              className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-lg"
             >
               Symbiosis Quantum Club brings together passionate students to explore quantum computing, cryptography, and the next frontier of technology.
             </motion.p>
@@ -132,7 +132,10 @@ export default function HeroSection() {
             >
               <Button
                 asChild
-                className="bg-gradient-to-r from-quantum-primary to-quantum-secondary hover:shadow-glow-cyan text-quantum-bg font-semibold px-8 py-3 rounded-lg text-base transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-primary to-secondary hover:shadow-lg text-bg-primary font-semibold px-8 py-3 rounded-lg text-base transition-all duration-300 hover:scale-105"
+                style={{
+                  boxShadow: '0 0 20px rgba(0, 240, 255, 0.3)',
+                }}
               >
                 <Link href="/#join" className="inline-flex items-center gap-2">
                   Get Started
@@ -141,7 +144,7 @@ export default function HeroSection() {
               </Button>
               <Button
                 asChild
-                className="border border-quantum-primary/50 text-quantum-primary hover:bg-quantum-primary/10 font-semibold px-8 py-3 rounded-lg text-base transition-all duration-300"
+                className="border border-primary/50 text-primary hover:bg-primary/10 font-semibold px-8 py-3 rounded-lg text-base transition-all duration-300"
               >
                 <Link href="/team">Meet the Team</Link>
               </Button>
@@ -150,19 +153,19 @@ export default function HeroSection() {
             {/* Stats Grid */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-3 gap-6 pt-8 mt-8 border-t border-quantum-border"
+              className="grid grid-cols-3 gap-6 pt-8 mt-8 border-t border-border-subtle"
             >
               <div>
-                <p className="text-2xl md:text-3xl font-bold text-quantum-primary">50+</p>
-                <p className="text-sm text-quantum-text-tertiary mt-1">Members</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary">50+</p>
+                <p className="text-sm text-text-muted mt-1">Members</p>
               </div>
               <div>
-                <p className="text-2xl md:text-3xl font-bold text-quantum-secondary">20+</p>
-                <p className="text-sm text-quantum-text-tertiary mt-1">Events</p>
+                <p className="text-2xl md:text-3xl font-bold text-secondary">20+</p>
+                <p className="text-sm text-text-muted mt-1">Events</p>
               </div>
               <div>
-                <p className="text-2xl md:text-3xl font-bold text-quantum-accent">2023</p>
-                <p className="text-sm text-quantum-text-tertiary mt-1">Founded</p>
+                <p className="text-2xl md:text-3xl font-bold text-accent">2023</p>
+                <p className="text-sm text-text-muted mt-1">Founded</p>
               </div>
             </motion.div>
           </motion.div>
@@ -177,7 +180,7 @@ export default function HeroSection() {
             {/* Decorative Floating Elements */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                className="absolute w-32 h-32 bg-quantum-primary/20 rounded-full filter blur-2xl"
+                className="absolute w-32 h-32 bg-primary/20 rounded-full filter blur-2xl"
                 animate={{
                   y: [0, -30, 0],
                   x: [0, 15, 0],
@@ -188,7 +191,7 @@ export default function HeroSection() {
                 }}
               />
               <motion.div
-                className="absolute w-40 h-40 bg-quantum-secondary/15 rounded-full filter blur-3xl"
+                className="absolute w-40 h-40 bg-secondary/15 rounded-full filter blur-3xl"
                 animate={{
                   y: [0, 30, 0],
                   x: [0, -20, 0],
@@ -199,7 +202,7 @@ export default function HeroSection() {
                 }}
               />
               <motion.div
-                className="absolute w-24 h-24 bg-quantum-accent/10 rounded-full filter blur-xl"
+                className="absolute w-24 h-24 bg-accent/10 rounded-full filter blur-xl"
                 animate={{
                   y: [0, -20, 0],
                   x: [0, 10, 0],

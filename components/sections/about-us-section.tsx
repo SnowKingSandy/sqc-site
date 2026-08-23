@@ -103,14 +103,14 @@ export default function AboutUsSection() {
 
               <motion.p
                 variants={itemVariants}
-                className="text-lg md:text-xl text-quantum-text-secondary leading-relaxed max-w-lg"
+                className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-lg"
               >
                 At Symbiosis Quantum Club, we're dedicated to pioneering quantum computing education and research. We bring together passionate students, industry experts, and cutting-edge technology to create an environment where innovation thrives.
               </motion.p>
 
               <motion.p
                 variants={itemVariants}
-                className="text-base md:text-lg text-quantum-text-tertiary leading-relaxed max-w-lg"
+                className="text-base md:text-lg text-text-muted leading-relaxed max-w-lg"
               >
                 Whether you're a beginner or advanced enthusiast, we provide the resources, mentorship, and community support you need to excel in the quantum computing revolution.
               </motion.p>
@@ -130,7 +130,7 @@ export default function AboutUsSection() {
                   <motion.div
                     key={index}
                     variants={itemVariants}
-                    className="feature-card group relative p-6 md:p-8 rounded-2xl bg-quantum-surface/40 border border-quantum-border hover:border-quantum-primary/50 backdrop-blur-md overflow-hidden"
+                    className="feature-card group relative p-6 md:p-8 rounded-2xl bg-surface-card/40 border border-border-subtle hover:border-primary/50 backdrop-blur-md overflow-hidden"
                   >
                     {/* Gradient Background on Hover */}
                     <div
@@ -138,19 +138,19 @@ export default function AboutUsSection() {
                     />
 
                     {/* Glow Effect */}
-                    <div className="absolute -inset-1 bg-gradient-to-br from-quantum-primary/20 to-quantum-secondary/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 -z-10" />
+                    <div className="absolute -inset-1 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300 -z-10" />
 
                     <div className="relative space-y-4">
                       {/* Icon */}
-                      <div className="w-fit p-3 rounded-lg bg-quantum-bg/60 border border-quantum-border/50">
-                        <Icon className="feature-icon w-6 h-6 text-quantum-primary" />
+                      <div className="w-fit p-3 rounded-lg bg-bg-primary/60 border border-border-subtle/50">
+                        <Icon className="feature-icon w-6 h-6 text-primary" />
                       </div>
 
                       {/* Content */}
-                      <h3 className="text-xl font-bold text-quantum-text leading-tight">
+                      <h3 className="text-xl font-bold text-text-primary leading-tight">
                         {feature.title}
                       </h3>
-                      <p className="text-sm md:text-base text-quantum-text-secondary leading-relaxed">
+                      <p className="text-sm md:text-base text-text-secondary leading-relaxed">
                         {feature.description}
                       </p>
 

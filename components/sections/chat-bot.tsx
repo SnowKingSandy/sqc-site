@@ -80,7 +80,7 @@ export default function ChatbotPage() {
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 flex-1">
         {/* Mobile Header with Toggle */}
         <div className="flex justify-between items-center lg:hidden mb-2">
-          <Link href="/" className="text-blue-400 flex items-center text-sm">
+          <Link href="/" className="text-primary flex items-center text-sm">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-2">
               <path d="m15 18-6-6 6-6"/>
             </svg>
@@ -111,7 +111,7 @@ export default function ChatbotPage() {
         <div 
           className={`${
             showSidebar 
-              ? "fixed right-0 top-0 bottom-0 w-[280px] z-50 p-4 overflow-y-auto bg-[#060a20] border-l border-gray-800" 
+              ? "fixed right-0 top-0 bottom-0 w-[280px] z-50 p-4 overflow-y-auto bg-bg-tertiary border-l border-border-subtle" 
               : "hidden"
           } lg:static lg:block lg:w-1/3 lg:z-auto`}
         >
@@ -133,7 +133,7 @@ export default function ChatbotPage() {
             )}
 
             <div className="hidden lg:flex items-center mb-4 lg:mb-6">
-              <Link href="/" className="font-display text-blue-400 hover:text-blue-300 flex items-center">
+              <Link href="/" className="font-display text-primary hover:text-accent flex items-center">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-2">
                   <path d="m15 18-6-6 6-6"/>
                 </svg>
@@ -144,35 +144,35 @@ export default function ChatbotPage() {
             <h1 className="font-title text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 hidden lg:block">Quantum Chatbot</h1>
             
             <div className="mb-4 sm:mb-6 hidden lg:block">
-              <p className="font-display text-gray-300 mb-3 text-sm sm:text-base">
+              <p className="font-display text-text-secondary mb-3 text-sm sm:text-base">
                 Chat with our AI assistant about quantum computing, our club, or upcoming events.
               </p>
-              <div className="h-1 w-16 bg-blue-600"></div>
+              <div className="h-1 w-16 bg-primary"></div>
             </div>
             
-            <div className="bg-[#060a20]/50 border border-gray-800 rounded-lg p-4 mb-4 sm:p-5 sm:mb-6">
+            <div className="bg-surface-card/50 border border-border-subtle rounded-lg p-4 mb-4 sm:p-5 sm:mb-6">
               <div className="flex items-center mb-3">
-                <div className="h-8 w-8 bg-blue-900/80 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-xs font-bold font-title text-white">QB</span>
+                <div className="h-8 w-8 bg-secondary/60 rounded-full flex items-center justify-center mr-3">
+                  <span className="text-xs font-bold font-title text-text-primary">QB</span>
                 </div>
                 <div>
-                  <h3 className="font-title text-white">QuantBot</h3>
-                  <p className="text-xs font-display text-blue-400">Quantum Computing Assistant</p>
+                  <h3 className="font-title text-text-primary">QuantBot</h3>
+                  <p className="text-xs font-display text-primary">Quantum Computing Assistant</p>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm font-display text-gray-400">
+              <p className="text-xs sm:text-sm font-display text-text-secondary">
                 I can answer questions about quantum computing principles, our club activities,
                 and help you understand complex quantum concepts.
               </p>
             </div>
             
-            <div className="bg-[#060a20]/50 border border-gray-800 rounded-lg p-4 sm:p-5">
-              <h3 className="font-title text-lg mb-3 text-white">Popular Questions</h3>
+            <div className="bg-surface-card/50 border border-border-subtle rounded-lg p-4 sm:p-5">
+              <h3 className="font-title text-lg mb-3 text-text-primary">Popular Questions</h3>
               <div className="grid gap-2">
                 {allSuggestions.map((suggestion, i) => (
                   <button 
                     key={i}
-                    className="w-full text-left px-3 py-2.5 text-sm font-display text-gray-300 hover:text-white hover:bg-blue-900/20 rounded-md transition-colors"
+                    className="w-full text-left px-3 py-2.5 text-sm font-display text-text-secondary hover:text-text-primary hover:bg-primary/10 rounded-md transition-colors"
                     onClick={() => {
                       handleSuggestionClick(suggestion);
                       setShowSidebar(false);
@@ -188,15 +188,15 @@ export default function ChatbotPage() {
         
         {/* Main Chat Area */}
         <div className="lg:w-2/3 flex flex-col h-full">
-          <Card className="bg-[#060a20] border-gray-800 flex-1 flex flex-col">
+          <Card className="bg-bg-tertiary border-border-subtle flex-1 flex flex-col">
             {/* Desktop Header Only */}
-            <div className="hidden lg:flex items-center p-3 border-b border-gray-800 bg-gradient-to-r from-blue-900/20 to-transparent">
-              <div className="h-8 w-8 bg-blue-900/80 rounded-full flex items-center justify-center mr-3">
-                <span className="text-xs font-bold font-title text-white">QB</span>
+            <div className="hidden lg:flex items-center p-3 border-b border-border-subtle bg-gradient-to-r from-primary/10 to-transparent">
+              <div className="h-8 w-8 bg-secondary/60 rounded-full flex items-center justify-center mr-3">
+                <span className="text-xs font-bold font-title text-text-primary">QB</span>
               </div>
               <div className="flex-1">
-                <h3 className="font-title text-white">Active Conversation</h3>
-                <p className="text-xs font-display text-blue-400">
+                <h3 className="font-title text-text-primary">Active Conversation</h3>
+                <p className="text-xs font-display text-primary">
                   {isTyping ? "Typing..." : "Online"}
                 </p>
               </div>
@@ -205,7 +205,7 @@ export default function ChatbotPage() {
                   {role: "bot", content: "👋 Hello! I'm QuantBot. How can I help you today?"},
                   {role: "bot", content: "You can ask me questions about quantum computing, our club events, or how to get involved!"}
                 ])}
-                className="text-gray-400 hover:text-white p-2 rounded-full"
+                className="text-text-secondary hover:text-text-primary p-2 rounded-full"
                 aria-label="Reset conversation"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -224,7 +224,7 @@ export default function ChatbotPage() {
                   {role: "bot", content: "👋 Hello! I'm QuantBot. How can I help you today?"},
                   {role: "bot", content: "You can ask me questions about quantum computing, our club events, or how to get involved!"}
                 ])}
-                className="text-gray-400 p-1.5"
+                className="text-text-secondary p-1.5"
                 aria-label="Reset conversation"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -236,27 +236,27 @@ export default function ChatbotPage() {
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-2 sm:p-4 lg:p-6 bg-gradient-to-b from-[#060a20] to-[#0a0f2a] space-y-3">
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4 lg:p-6 bg-gradient-to-b from-bg-tertiary to-bg-primary space-y-3">
               {chatHistory.map((msg, i) => (
                 <div 
                   key={i}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.role === "bot" && (
-                    <div className="h-5 w-5 lg:h-6 lg:w-6 bg-blue-900/80 rounded-full flex-shrink-0 flex items-center justify-center mr-1.5 lg:mr-2 mt-1">
-                      <span className="text-[8px] lg:text-[10px] font-bold font-title text-white">QB</span>
+                    <div className="h-5 w-5 lg:h-6 lg:w-6 bg-secondary/60 rounded-full flex-shrink-0 flex items-center justify-center mr-1.5 lg:mr-2 mt-1">
+                      <span className="text-[8px] lg:text-[10px] font-bold font-title text-text-primary">QB</span>
                     </div>
                   )}
                   <div className={`max-w-[90%] sm:max-w-[75%] rounded-2xl px-2.5 sm:px-4 py-1.5 sm:py-2.5 ${
                     msg.role === "user" 
-                      ? "bg-blue-800/80 text-white" 
-                      : "bg-gray-800/80 text-gray-100"
+                      ? "bg-primary/30 text-text-primary" 
+                      : "bg-surface-card/60 text-text-secondary"
                   }`}>
                     <p className="font-display text-xs sm:text-sm">{msg.content}</p>
                   </div>
                   {msg.role === "user" && (
-                    <div className="h-5 w-5 lg:h-6 lg:w-6 bg-gray-700/80 rounded-full flex-shrink-0 flex items-center justify-center ml-1.5 lg:ml-2 mt-1">
-                      <span className="text-[8px] lg:text-[10px] font-bold font-title text-white">Y</span>
+                    <div className="h-5 w-5 lg:h-6 lg:w-6 bg-accent/60 rounded-full flex-shrink-0 flex items-center justify-center ml-1.5 lg:ml-2 mt-1">
+                      <span className="text-[8px] lg:text-[10px] font-bold font-title text-text-primary">Y</span>
                     </div>
                   )}
                 </div>
@@ -264,14 +264,14 @@ export default function ChatbotPage() {
               
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="h-5 w-5 lg:h-6 lg:w-6 bg-blue-900/80 rounded-full flex-shrink-0 flex items-center justify-center mr-1.5 lg:mr-2 mt-1">
-                    <span className="text-[8px] lg:text-[10px] font-bold font-title text-white">QB</span>
+                  <div className="h-5 w-5 lg:h-6 lg:w-6 bg-secondary/60 rounded-full flex-shrink-0 flex items-center justify-center mr-1.5 lg:mr-2 mt-1">
+                    <span className="text-[8px] lg:text-[10px] font-bold font-title text-text-primary">QB</span>
                   </div>
-                  <div className="bg-gray-800/80 rounded-2xl px-2.5 sm:px-3 py-1.5 sm:py-2">
+                  <div className="bg-surface-card/60 rounded-2xl px-2.5 sm:px-3 py-1.5 sm:py-2">
                     <div className="flex space-x-1.5">
-                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-gray-500 rounded-full animate-pulse"></div>
-                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-gray-500 rounded-full animate-pulse delay-75"></div>
-                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-gray-500 rounded-full animate-pulse delay-150"></div>
+                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-text-muted rounded-full animate-pulse"></div>
+                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-text-muted rounded-full animate-pulse delay-75"></div>
+                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-text-muted rounded-full animate-pulse delay-150"></div>
                     </div>
                   </div>
                 </div>
@@ -285,7 +285,7 @@ export default function ChatbotPage() {
               {quickSuggestions.map((suggestion, i) => (
                 <button
                   key={i}
-                  className="px-3 py-1.5 text-xs whitespace-nowrap bg-gray-800/60 text-gray-300 rounded-full hover:bg-gray-700/70"
+                  className="px-3 py-1.5 text-xs whitespace-nowrap bg-surface-card/60 text-text-secondary rounded-full hover:bg-primary/20"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
                   {suggestion}
@@ -293,7 +293,7 @@ export default function ChatbotPage() {
               ))}
             </div>
             
-            <div className="p-2 sm:p-4 border-y border-gray-800">
+            <div className="p-2 sm:p-4 border-y border-border-subtle">
               <form 
                 className="flex items-center gap-2" 
                 onSubmit={(e) => {
@@ -306,12 +306,12 @@ export default function ChatbotPage() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Ask question..."
-                  className="flex-1 bg-gray-900 border border-gray-700 rounded-md px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm text-white font-display focus:outline-none focus:ring-1 focus:ring-blue-600 placeholder:text-gray-500"
+                  className="flex-1 bg-surface-card border border-border-subtle rounded-md px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm text-text-primary font-display focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-text-muted"
                   disabled={isTyping}
                 />
                 <Button 
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-display whitespace-nowrap h-auto py-1.5 px-3 sm:py-2 sm:px-4 text-xs sm:text-sm"
+                  className="bg-primary hover:bg-accent text-bg-primary font-display whitespace-nowrap h-auto py-1.5 px-3 sm:py-2 sm:px-4 text-xs sm:text-sm"
                   disabled={isTyping || !message.trim()}
                 >
                   Send

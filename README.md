@@ -12,7 +12,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with `create-next-a
 
 **1. Clone the repository and install dependencies:**
 \`\`\`bash
-git clone https://github.com/SnowKingSandy/sqc-site.git
+git clone https://github.com/SarvAce/sqc-site.git
 cd sqc-site
 npm install
 \`\`\`

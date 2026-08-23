@@ -91,9 +91,14 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
-            ? "bg-quantum-dark/80 backdrop-blur-md border-b border-quantum-accent/20 shadow-lg" 
+            ? "bg-gradient-to-r from-quantum-bg/80 to-quantum-bg-secondary/80 backdrop-blur-md border-b border-quantum-border shadow-lg" 
             : "bg-transparent"
         }`}
+        style={isScrolled ? {
+          backgroundColor: 'rgba(18, 24, 43, 0.8)',
+          backdropFilter: 'blur(16px)',
+          borderColor: 'rgba(255,255,255,0.08)',
+        } : {}}
       >
         <div className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}

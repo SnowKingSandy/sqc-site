@@ -8,10 +8,10 @@ interface SectionHeadingProps {
 export default function SubSectionHeading({ title, className }: SectionHeadingProps) {
   return (
     <div className={cn("mb-10 text-center", className)}>
-      <h2 className="font-title text-3xl md:text-3xl font-bold mb-3 text-purple-500">
+      <h2 className="font-title text-3xl md:text-3xl font-bold mb-3 text-secondary">
         {title}
       </h2>
-      <div className="w-16 h-1 bg-blue-600 mx-auto"></div>
+      <div className="w-16 h-1 bg-primary mx-auto"></div>
     </div>
   );
 }
